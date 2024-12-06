@@ -13,6 +13,7 @@ import {
   ELEMENT_BULLETED_LIST,
   ELEMENT_NUMBERED_LIST,
   ELEMENT_LIST_ITEM,
+  MARK_STRIKETHROUGH,
 } from "./constants"
 import { ReactEditor } from "slate-react"
 
@@ -32,14 +33,17 @@ export type RichText = {
   [MARK_BOLD]?: boolean
   [MARK_ITALIC]?: boolean
   [MARK_UNDERLINE]?: boolean
+  [MARK_STRIKETHROUGH]?: boolean
   [MARK_CODE]?: boolean
   [MARK_COLOR]?: string
 }
 
-// Element Props
-type AlignProps = {
-  align?: "left" | "center" | "right"
-}
+export type TogglableMarkKey =
+  | typeof MARK_BOLD
+  | typeof MARK_ITALIC
+  | typeof MARK_UNDERLINE
+  | typeof MARK_STRIKETHROUGH
+  | typeof MARK_CODE
 
 /**
  * Element
@@ -47,7 +51,7 @@ type AlignProps = {
 export type MyParagraphElement = {
   type: typeof ELEMENT_PARAGRAPH
   children: Editor_InlineChildren
-} & AlignProps
+}
 
 export type MyHeadingElement = {
   type:
@@ -55,7 +59,7 @@ export type MyHeadingElement = {
     | typeof ELEMENT_HEADING_2
     | typeof ELEMENT_HEADING_3
   children: Editor_InlineChildren
-} & AlignProps
+}
 
 export type MyH1Element = MyHeadingElement & {
   type: typeof ELEMENT_HEADING_1
@@ -70,7 +74,7 @@ export type MyH3Element = MyHeadingElement & {
 export type MyBlockQuoteElement = {
   type: typeof ELEMENT_BLOCKQUOTE
   children: Editor_InlineChildren
-} & AlignProps
+}
 
 export type MyBulletedListElement = {
   type: typeof ELEMENT_BULLETED_LIST
@@ -85,7 +89,7 @@ export type MyNumberedListElement = {
 export type MyListItemElement = {
   type: typeof ELEMENT_LIST_ITEM
   children: Editor_InlineChildren
-} & AlignProps
+}
 
 // Editor
 export type Editor_InlineChildren = RichText[]

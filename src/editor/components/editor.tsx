@@ -19,8 +19,9 @@ import {
   ELEMENT_LIST_ITEM,
   ELEMENT_NUMBERED_LIST,
   ELEMENT_PARAGRAPH,
-} from "./constants"
-import { Editor_Value } from "./types"
+} from "../constants"
+import { Editor_Value } from "../types"
+import { FloatingToolbar } from "./floating-toolbar"
 
 const initialValue: Editor_Value = [
   {
@@ -110,10 +111,16 @@ export const Editor = () => {
   return (
     <Slate editor={editor} initialValue={initialValue}>
       <Editable
+        id="editor"
         renderElement={renderElement}
         renderLeaf={renderLeaf}
-        className="max-w-full p-5 outline-none [&>*]:max-w-screen-lg [&>*]:mx-auto"
+        className="grid max-w-full outline-none pb-[30vh] [&>*]:col-start-2"
+        style={{
+          gridTemplateColumns:
+            "minmax(96px, 1fr) minmax(auto, 708px) minmax(96px, 1fr)",
+        }}
       />
+      <FloatingToolbar />
     </Slate>
   )
 }
@@ -122,11 +129,7 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
   switch (element.type) {
     case ELEMENT_BLOCKQUOTE:
       return (
-        <blockquote
-          style={{ textAlign: element.align }}
-          className="border-l-4 pl-4 py-2 mt-6"
-          {...attributes}
-        >
+        <blockquote className="border-l-4 pl-4 py-2 mt-6" {...attributes}>
           {children}
         </blockquote>
       )
@@ -141,37 +144,25 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
       )
     case ELEMENT_HEADING_1:
       return (
-        <h1
-          style={{ textAlign: element.align }}
-          className="text-5xl leading-[1.2] font-bold mt-6"
-          {...attributes}
-        >
+        <h1 className="text-5xl leading-[1.2] font-bold mt-6" {...attributes}>
           {children}
         </h1>
       )
     case ELEMENT_HEADING_2:
       return (
-        <h2
-          style={{ textAlign: element.align }}
-          className="text-3xl leading-[1.3] font-bold mt-6"
-          {...attributes}
-        >
+        <h2 className="text-3xl leading-[1.3] font-bold mt-6" {...attributes}>
           {children}
         </h2>
       )
     case ELEMENT_HEADING_3:
       return (
-        <h3
-          style={{ textAlign: element.align }}
-          className="text-xl leading-[1.4] font-bold mt-6"
-          {...attributes}
-        >
+        <h3 className="text-xl leading-[1.4] font-bold mt-6" {...attributes}>
           {children}
         </h3>
       )
     case ELEMENT_LIST_ITEM:
       return (
-        <li style={{ textAlign: element.align }} className="" {...attributes}>
+        <li className="" {...attributes}>
           {children}
         </li>
       )
@@ -186,13 +177,11 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
       )
     default:
       return (
-        <p
-          style={{ textAlign: element.align }}
-          className="mt-6"
-          {...attributes}
-        >
-          {children}
-        </p>
+        <div {...attributes} className="mt-0.5 mb-px">
+          <div className="flex">
+            <div className="py-[3px] px-0.5 caret-foreground">{children}</div>
+          </div>
+        </div>
       )
   }
 }
@@ -202,20 +191,23 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
     children = <span className="font-bold">{children}</span>
   }
 
-  if (leaf.code) {
-    children = (
-      <code className="inline-block bg-gray-100 rounded px-1 text-[0.9em]">
-        {children}
-      </code>
-    )
-  }
-
   if (leaf.italic) {
     children = <span className="italic">{children}</span>
   }
 
   if (leaf.underline) {
     children = <span className="underline">{children}</span>
+  }
+  if (leaf.strikethrough) {
+    children = <span className="line-through">{children}</span>
+  }
+
+  if (leaf.code) {
+    children = (
+      <code className="font-mono text-[#EB5757] bg-accent rounded py-[.2em] px-[.4em] text-[85%]">
+        {children}
+      </code>
+    )
   }
 
   return <span {...attributes}>{children}</span>

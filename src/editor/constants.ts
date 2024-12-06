@@ -2,6 +2,7 @@
 export const MARK_BOLD = "bold"
 export const MARK_ITALIC = "italic"
 export const MARK_UNDERLINE = "underline"
+export const MARK_STRIKETHROUGH = "strikethrough"
 export const MARK_CODE = "code"
 export const MARK_COLOR = "color"
 
