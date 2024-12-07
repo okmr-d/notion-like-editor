@@ -54,7 +54,9 @@ export const FloatingToolbar = () => {
       !selection ||
       !inFocus ||
       Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === ""
+      Editor.string(editor, selection) === "" ||
+      // 選択範囲にtitle要素を含む
+      Range.includes(selection, [0])
     ) {
       setIsOpen(false)
       return

@@ -79,7 +79,7 @@ export type ParagraphElement = {
   children: Editor_InlineChildren
 }
 
-export type BlockQuoteElement = {
+export type BlockquoteElement = {
   type: typeof ELEMENT_BLOCKQUOTE
   children: Editor_InlineChildren
 }
@@ -90,7 +90,7 @@ export type Editor_Element =
   | TitleElement
   | HeadingElement
   | ParagraphElement
-  | BlockQuoteElement
+  | BlockquoteElement
 export type Editor_Value = Editor_Element[]
 export type Editor_Descendant = Editor_Element | RichText
 

@@ -1,4 +1,4 @@
-export * from "./forced-layout/index"
+export * from "./normalize/index"
 export * from "./element-blockquote/index"
 export * from "./element-heading/index"
 export * from "./element-paragraph/index"

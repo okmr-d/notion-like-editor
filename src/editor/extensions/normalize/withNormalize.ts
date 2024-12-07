@@ -1,4 +1,4 @@
-import { ELEMENT_PARAGRAPH, ELEMENT_TITLE } from "@/editor/constants"
+import { ELEMENT_PARAGRAPH, ELEMENT_TITLE } from "../../constants"
 import { createElement } from "../../utils/createElement"
 import { Editor, Node, Transforms, Path, Element, NodeEntry, Text } from "slate"
 
@@ -10,7 +10,7 @@ const rules: {
   { path: [0], strictType: "title" },
 ]
 
-export const withForcedLayout = (editor: Editor) => {
+export const withNormalize = (editor: Editor) => {
   const { normalizeNode } = editor
 
   editor.normalizeNode = ([currentNode, currentPath]) => {

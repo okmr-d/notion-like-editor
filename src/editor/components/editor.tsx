@@ -20,8 +20,9 @@ import {
 } from "../constants"
 import { Editor_Value } from "../types"
 import { FloatingToolbar } from "./floating-toolbar"
-import { withForcedLayout } from "../extensions"
-import { match } from "ts-pattern"
+import { withNormalize } from "../extensions"
+import { Element } from "./element"
+import { Leaf } from "./leaf"
 
 const initialValue: Editor_Value = [
   {
@@ -73,7 +74,7 @@ const initialValue: Editor_Value = [
 
 export const Editor = () => {
   const [editor] = useState(() =>
-    withForcedLayout(withHistory(withReact(createEditor())))
+    withNormalize(withHistory(withReact(createEditor())))
   )
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
@@ -99,72 +100,4 @@ export const Editor = () => {
       <FloatingToolbar />
     </Slate>
   )
-}
-
-const Element = ({ attributes, children, element }: RenderElementProps) =>
-  match(element.type)
-    .with(ELEMENT_TITLE, () => (
-      <div className="pt-28" {...attributes}>
-        <h1
-          className="pt-[3px] px-0.5 text-[40px]/[1.2] font-bold"
-          data-placeholder="新規ページ"
-        >
-          {children}
-        </h1>
-      </div>
-    ))
-    .with(ELEMENT_BLOCKQUOTE, () => (
-      <blockquote className="border-l-4 pl-4 py-2 mt-6" {...attributes}>
-        {children}
-      </blockquote>
-    ))
-    .with(ELEMENT_HEADING_1, () => (
-      <h2 className="text-5xl leading-[1.2] font-bold mt-6" {...attributes}>
-        {children}
-      </h2>
-    ))
-    .with(ELEMENT_HEADING_2, () => (
-      <h3 className="text-3xl leading-[1.3] font-bold mt-6" {...attributes}>
-        {children}
-      </h3>
-    ))
-    .with(ELEMENT_HEADING_3, () => (
-      <h4 className="text-xl leading-[1.4] font-bold mt-6" {...attributes}>
-        {children}
-      </h4>
-    ))
-    .with(ELEMENT_PARAGRAPH, () => (
-      <div {...attributes} className="mt-0.5 mb-px">
-        <div className="flex">
-          <div className="py-[3px] px-0.5 caret-foreground">{children}</div>
-        </div>
-      </div>
-    ))
-    .exhaustive()
-
-const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
-  if (leaf.bold) {
-    children = <span className="font-bold">{children}</span>
-  }
-
-  if (leaf.italic) {
-    children = <span className="italic">{children}</span>
-  }
-
-  if (leaf.underline) {
-    children = <span className="underline">{children}</span>
-  }
-  if (leaf.strikethrough) {
-    children = <span className="line-through">{children}</span>
-  }
-
-  if (leaf.code) {
-    children = (
-      <code className="font-mono text-[#EB5757] bg-accent rounded py-[.2em] px-[.4em] text-[85%]">
-        {children}
-      </code>
-    )
-  }
-
-  return <span {...attributes}>{children}</span>
 }
