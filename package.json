@@ -23,7 +23,8 @@
     "slate": "^0.110.2",
     "slate-history": "^0.110.3",
     "slate-react": "^0.111.0",
-    "tailwind-merge": "^2.5.5"
+    "tailwind-merge": "^2.5.5",
+    "ts-pattern": "^5.5.0"
   },
   "devDependencies": {
     "@types/node": "^20",

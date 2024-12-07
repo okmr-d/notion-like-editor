@@ -12,18 +12,22 @@ import {
 import { withHistory } from "slate-history"
 import {
   ELEMENT_BLOCKQUOTE,
-  ELEMENT_BULLETED_LIST,
   ELEMENT_HEADING_1,
   ELEMENT_HEADING_2,
   ELEMENT_HEADING_3,
-  ELEMENT_LIST_ITEM,
-  ELEMENT_NUMBERED_LIST,
   ELEMENT_PARAGRAPH,
+  ELEMENT_TITLE,
 } from "../constants"
 import { Editor_Value } from "../types"
 import { FloatingToolbar } from "./floating-toolbar"
+import { withForcedLayout } from "../extensions"
+import { match } from "ts-pattern"
 
 const initialValue: Editor_Value = [
+  {
+    type: ELEMENT_TITLE,
+    children: [{ text: "Title" }],
+  },
   {
     type: ELEMENT_HEADING_1,
     children: [{ text: "Heading 1" }],
@@ -35,10 +39,6 @@ const initialValue: Editor_Value = [
   {
     type: ELEMENT_HEADING_3,
     children: [{ text: "Heading 3" }],
-  },
-  {
-    type: ELEMENT_PARAGRAPH,
-    children: [{ text: "A line of text in a paragraph." }],
   },
   {
     type: ELEMENT_PARAGRAPH,
@@ -69,36 +69,12 @@ const initialValue: Editor_Value = [
     type: ELEMENT_BLOCKQUOTE,
     children: [{ text: "Blockquote text" }],
   },
-  {
-    type: ELEMENT_BULLETED_LIST,
-    children: [
-      {
-        type: ELEMENT_LIST_ITEM,
-        children: [{ text: "Bulleted list item" }],
-      },
-      {
-        type: ELEMENT_LIST_ITEM,
-        children: [{ text: "Bulleted list item" }],
-      },
-    ],
-  },
-  {
-    type: ELEMENT_NUMBERED_LIST,
-    children: [
-      {
-        type: ELEMENT_LIST_ITEM,
-        children: [{ text: "Numbered list item" }],
-      },
-      {
-        type: ELEMENT_LIST_ITEM,
-        children: [{ text: "Numbered list item" }],
-      },
-    ],
-  },
 ]
 
 export const Editor = () => {
-  const [editor] = useState(() => withHistory(withReact(createEditor())))
+  const [editor] = useState(() =>
+    withForcedLayout(withHistory(withReact(createEditor())))
+  )
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
@@ -125,66 +101,46 @@ export const Editor = () => {
   )
 }
 
-const Element = ({ attributes, children, element }: RenderElementProps) => {
-  switch (element.type) {
-    case ELEMENT_BLOCKQUOTE:
-      return (
-        <blockquote className="border-l-4 pl-4 py-2 mt-6" {...attributes}>
-          {children}
-        </blockquote>
-      )
-    case ELEMENT_BULLETED_LIST:
-      return (
-        <ul
-          className="mt-6 [&>li]:list-disc [&>li]:ml-6 space-y-2"
-          {...attributes}
+const Element = ({ attributes, children, element }: RenderElementProps) =>
+  match(element.type)
+    .with(ELEMENT_TITLE, () => (
+      <div className="pt-28" {...attributes}>
+        <h1
+          className="pt-[3px] px-0.5 text-[40px]/[1.2] font-bold"
+          data-placeholder="新規ページ"
         >
-          {children}
-        </ul>
-      )
-    case ELEMENT_HEADING_1:
-      return (
-        <h1 className="text-5xl leading-[1.2] font-bold mt-6" {...attributes}>
           {children}
         </h1>
-      )
-    case ELEMENT_HEADING_2:
-      return (
-        <h2 className="text-3xl leading-[1.3] font-bold mt-6" {...attributes}>
-          {children}
-        </h2>
-      )
-    case ELEMENT_HEADING_3:
-      return (
-        <h3 className="text-xl leading-[1.4] font-bold mt-6" {...attributes}>
-          {children}
-        </h3>
-      )
-    case ELEMENT_LIST_ITEM:
-      return (
-        <li className="" {...attributes}>
-          {children}
-        </li>
-      )
-    case ELEMENT_NUMBERED_LIST:
-      return (
-        <ol
-          {...attributes}
-          className="mt-6 [&>li]:list-decimal [&>li]:ml-6 space-y-2"
-        >
-          {children}
-        </ol>
-      )
-    default:
-      return (
-        <div {...attributes} className="mt-0.5 mb-px">
-          <div className="flex">
-            <div className="py-[3px] px-0.5 caret-foreground">{children}</div>
-          </div>
+      </div>
+    ))
+    .with(ELEMENT_BLOCKQUOTE, () => (
+      <blockquote className="border-l-4 pl-4 py-2 mt-6" {...attributes}>
+        {children}
+      </blockquote>
+    ))
+    .with(ELEMENT_HEADING_1, () => (
+      <h2 className="text-5xl leading-[1.2] font-bold mt-6" {...attributes}>
+        {children}
+      </h2>
+    ))
+    .with(ELEMENT_HEADING_2, () => (
+      <h3 className="text-3xl leading-[1.3] font-bold mt-6" {...attributes}>
+        {children}
+      </h3>
+    ))
+    .with(ELEMENT_HEADING_3, () => (
+      <h4 className="text-xl leading-[1.4] font-bold mt-6" {...attributes}>
+        {children}
+      </h4>
+    ))
+    .with(ELEMENT_PARAGRAPH, () => (
+      <div {...attributes} className="mt-0.5 mb-px">
+        <div className="flex">
+          <div className="py-[3px] px-0.5 caret-foreground">{children}</div>
         </div>
-      )
-  }
-}
+      </div>
+    ))
+    .exhaustive()
 
 const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   if (leaf.bold) {

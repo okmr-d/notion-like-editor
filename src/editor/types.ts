@@ -10,12 +10,15 @@ import {
   ELEMENT_HEADING_2,
   ELEMENT_HEADING_3,
   ELEMENT_BLOCKQUOTE,
-  ELEMENT_BULLETED_LIST,
-  ELEMENT_NUMBERED_LIST,
-  ELEMENT_LIST_ITEM,
   MARK_STRIKETHROUGH,
+  ELEMENT_TITLE,
 } from "./constants"
 import { ReactEditor } from "slate-react"
+
+export type PartiallyPartialOmit<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>
+export type PartiallyPartialPick<T, K extends keyof T> = Pick<T, K> &
+  Partial<Pick<T, K>>
 
 /**
  * Text
@@ -48,12 +51,12 @@ export type TogglableMarkKey =
 /**
  * Element
  */
-export type MyParagraphElement = {
-  type: typeof ELEMENT_PARAGRAPH
-  children: Editor_InlineChildren
+export type TitleElement = {
+  type: typeof ELEMENT_TITLE
+  children: [PlainText]
 }
 
-export type MyHeadingElement = {
+export type HeadingElement = {
   type:
     | typeof ELEMENT_HEADING_1
     | typeof ELEMENT_HEADING_2
@@ -61,45 +64,33 @@ export type MyHeadingElement = {
   children: Editor_InlineChildren
 }
 
-export type MyH1Element = MyHeadingElement & {
+export type Heading1Element = HeadingElement & {
   type: typeof ELEMENT_HEADING_1
 }
-export type MyH2Element = MyHeadingElement & {
+export type Heading2Element = HeadingElement & {
   type: typeof ELEMENT_HEADING_2
 }
-export type MyH3Element = MyHeadingElement & {
+export type Heading3Element = HeadingElement & {
   type: typeof ELEMENT_HEADING_3
 }
 
-export type MyBlockQuoteElement = {
-  type: typeof ELEMENT_BLOCKQUOTE
+export type ParagraphElement = {
+  type: typeof ELEMENT_PARAGRAPH
   children: Editor_InlineChildren
 }
 
-export type MyBulletedListElement = {
-  type: typeof ELEMENT_BULLETED_LIST
-  children: MyListItemElement[]
-}
-
-export type MyNumberedListElement = {
-  type: typeof ELEMENT_NUMBERED_LIST
-  children: MyListItemElement[]
-}
-
-export type MyListItemElement = {
-  type: typeof ELEMENT_LIST_ITEM
+export type BlockQuoteElement = {
+  type: typeof ELEMENT_BLOCKQUOTE
   children: Editor_InlineChildren
 }
 
 // Editor
 export type Editor_InlineChildren = RichText[]
 export type Editor_Element =
-  | MyParagraphElement
-  | MyHeadingElement
-  | MyBlockQuoteElement
-  | MyBulletedListElement
-  | MyNumberedListElement
-  | MyListItemElement
+  | TitleElement
+  | HeadingElement
+  | ParagraphElement
+  | BlockQuoteElement
 export type Editor_Value = Editor_Element[]
 export type Editor_Descendant = Editor_Element | RichText
 

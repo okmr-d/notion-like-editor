@@ -1,5 +1,7 @@
 import { Editor } from "slate"
-import { RichText, TogglableMarkKey } from "./types"
+import { RichText, TogglableMarkKey } from "../types"
+
+export * from "./createElement"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isText = (value: any): value is { text: string } => {
