@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import { ThemeProvider } from "next-themes"
 
 export const metadata: Metadata = {
-  title: "ブロックエディタ",
+  title: "Notion-like Editor",
   description: "Notion風のブロックエディタ",
 }
 
@@ -13,7 +14,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className="overflow-hidden">
-      <body>{children}</body>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          enableColorScheme
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

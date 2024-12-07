@@ -26,6 +26,7 @@ export const withNormalize = (editor: Editor) => {
             Element.isElement(node) &&
             node.type !== strictType
           ) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { children, ...props } = createElement({
               type: strictType,
             })

@@ -91,11 +91,7 @@ export const Editor = () => {
         id="editor"
         renderElement={renderElement}
         renderLeaf={renderLeaf}
-        className="grid max-w-full outline-none pb-[30vh] [&>*]:col-start-2"
-        style={{
-          gridTemplateColumns:
-            "minmax(96px, 1fr) minmax(auto, 708px) minmax(96px, 1fr)",
-        }}
+        className="grid grid-cols-[minmax(96px,1fr)_minmax(auto,708px)_minmax(96px,1fr)] max-w-full outline-none pb-[30vh] [&>*]:col-start-2"
       />
       <FloatingToolbar />
     </Slate>
