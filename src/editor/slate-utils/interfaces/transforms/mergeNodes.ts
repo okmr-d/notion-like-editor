@@ -161,7 +161,9 @@ export const mergeNodes = <E extends Editor>(
       // DIFF: start
       if (removeEmptyAncestor) {
         const emptyPath = emptyRef.current
-        emptyPath && removeEmptyAncestor(editor as any, { at: emptyPath })
+        if (emptyPath) {
+          removeEmptyAncestor(editor, { at: emptyPath })
+        }
       } else {
         removeNodes(editor, { at: emptyRef.current!, voids })
       }

@@ -21,6 +21,6 @@ export type MarksOf<N extends Node> = Simplify<
   UnionToIntersection<TNodeProps<TextOf<N>>>
 >
 
-export type MarkKeysOf<N extends Node> = {} extends MarksOf<N>
+export type MarkKeysOf<N extends Node> = object extends MarksOf<N>
   ? unknown
   : keyof MarksOf<N>
