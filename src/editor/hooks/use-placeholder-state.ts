@@ -5,7 +5,7 @@ import {
   useSlateStatic,
 } from "slate-react"
 import { Editor_Element } from "../types"
-import { Editor, Range } from "slate"
+import { isCollapsed, isElementEmpty } from "../slate-utils"
 
 export const usePlaceholderState = ({
   element,
@@ -19,15 +19,11 @@ export const usePlaceholderState = ({
   const composing = useComposing()
   const editor = useSlateStatic()
 
-  const isEmptyBlock = Editor.isEmpty(editor, element) && !composing
-
   const showPlaceholder =
-    isEmptyBlock &&
-    (!hideOnBlur ||
-      (editor.selection &&
-        Range.isCollapsed(editor.selection) &&
-        focused &&
-        selected))
+    isElementEmpty(editor, element) &&
+    (!hideOnBlur
+      ? !selected || !composing
+      : focused && selected && !composing && isCollapsed(editor.selection))
 
   return {
     showPlaceholder,
