@@ -10,66 +10,14 @@ import {
   RenderElementProps,
 } from "slate-react"
 import { withHistory } from "slate-history"
-import {
-  ELEMENT_BLOCKQUOTE,
-  ELEMENT_HEADING_1,
-  ELEMENT_HEADING_2,
-  ELEMENT_HEADING_3,
-  ELEMENT_PARAGRAPH,
-  ELEMENT_TITLE,
-} from "../constants"
 import { Editor_Value } from "../types"
 import { FloatingToolbar } from "./floating-toolbar"
-import { withNormalize } from "../extensions"
+import { createTitleElement, withNormalize } from "../extensions"
 import { Element } from "./element"
 import { Leaf } from "./leaf"
 
 const initialValue: Editor_Value = [
-  {
-    type: ELEMENT_TITLE,
-    children: [{ text: "Title" }],
-  },
-  {
-    type: ELEMENT_HEADING_1,
-    children: [{ text: "Heading 1" }],
-  },
-  {
-    type: ELEMENT_HEADING_2,
-    children: [{ text: "Heading 2" }],
-  },
-  {
-    type: ELEMENT_HEADING_3,
-    children: [{ text: "Heading 3" }],
-  },
-  {
-    type: ELEMENT_PARAGRAPH,
-    children: [
-      { text: "A line of text in a paragraph. " },
-      {
-        bold: true,
-        text: "Bold",
-      },
-      { text: " / " },
-      {
-        italic: true,
-        text: "Italic",
-      },
-      { text: " / " },
-      {
-        underline: true,
-        text: "Underline",
-      },
-      { text: " / " },
-      {
-        code: true,
-        text: "Code",
-      },
-    ],
-  },
-  {
-    type: ELEMENT_BLOCKQUOTE,
-    children: [{ text: "Blockquote text" }],
-  },
+  createTitleElement({ children: [{ text: "🧩 Title" }] }),
 ]
 
 export const Editor = () => {

@@ -14,6 +14,7 @@ import {
   ELEMENT_TITLE,
 } from "./constants"
 import { ReactEditor } from "slate-react"
+import { HistoryEditor } from "slate-history"
 
 export type PartiallyPartialOmit<T, K extends keyof T> = Omit<T, K> &
   Partial<Pick<T, K>>
@@ -54,6 +55,8 @@ export type TogglableMarkKey =
 export type TitleElement = {
   type: typeof ELEMENT_TITLE
   children: [PlainText]
+  id: string
+  _id?: string
 }
 
 export type HeadingElement = {
@@ -62,6 +65,8 @@ export type HeadingElement = {
     | typeof ELEMENT_HEADING_2
     | typeof ELEMENT_HEADING_3
   children: Editor_InlineChildren
+  id: string
+  _id?: string
 }
 
 export type Heading1Element = HeadingElement & {
@@ -77,11 +82,15 @@ export type Heading3Element = HeadingElement & {
 export type ParagraphElement = {
   type: typeof ELEMENT_PARAGRAPH
   children: Editor_InlineChildren
+  id: string
+  _id?: string
 }
 
 export type BlockquoteElement = {
   type: typeof ELEMENT_BLOCKQUOTE
   children: Editor_InlineChildren
+  id: string
+  _id?: string
 }
 
 // Editor
@@ -96,7 +105,7 @@ export type Editor_Descendant = Editor_Element | RichText
 
 declare module "slate" {
   interface CustomTypes {
-    Editor: BaseEditor & ReactEditor
+    Editor: BaseEditor & ReactEditor & HistoryEditor
     Element: Editor_Element
     Text: RichText
   }

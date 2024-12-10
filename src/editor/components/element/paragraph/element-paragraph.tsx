@@ -1,16 +1,24 @@
-import { RenderElementProps } from "slate-react"
+import { RenderElementProps, useSlateStatic } from "slate-react"
 import { usePlaceholderState } from "../../../hooks"
 import { cn } from "@/lib/utils"
+import { useRef } from "react"
+import { useMergeRefs } from "@floating-ui/react"
 
 export const ElementParagraph = ({
   attributes,
   children,
   element,
 }: RenderElementProps) => {
+  const editor = useSlateStatic()
+
   const { showPlaceholder } = usePlaceholderState({ element })
 
+  const nodeRef = useRef<HTMLElement>(null)
+
+  const ref = useMergeRefs([nodeRef, attributes.ref])
+
   return (
-    <div {...attributes} className="my-px">
+    <div {...attributes} ref={ref} className="relative my-px">
       <div
         className={cn(
           "py-[3px] px-[2px] caret-foreground",

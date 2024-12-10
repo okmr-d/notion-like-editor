@@ -1,0 +1,5 @@
+export * from "./TText"
+export * from "./isText"
+export * from "./isTextList"
+export * from "./textEquals"
+export * from "./textMatches"
