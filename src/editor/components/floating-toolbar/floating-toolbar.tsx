@@ -36,6 +36,7 @@ export const FloatingToolbar = () => {
         crossAxis: -50,
       }),
       shift({
+        padding: { top: 44, left: 36, right: 36 },
         crossAxis: true,
       }),
       hide(),
@@ -77,7 +78,7 @@ export const FloatingToolbar = () => {
   return isOpen ? (
     <FloatingPortal id="editor-container">
       <div
-        className="pointer-events-none pt-14 pb-3 px-9"
+        className="pointer-events-none py-3"
         ref={refs.setFloating}
         style={{
           ...floatingStyles,

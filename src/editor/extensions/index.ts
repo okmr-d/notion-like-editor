@@ -1,3 +1,4 @@
+export * from "./command-combobox/index"
 export * from "./normalize/index"
 export * from "./element-blockquote/index"
 export * from "./element-heading/index"
