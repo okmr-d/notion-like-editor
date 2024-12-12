@@ -9,7 +9,7 @@ import {
 } from "../constants"
 import { isCollapsed, isPointAtWordEnd } from "../../../slate-utils"
 
-export const onChangeHandler = (editor: Editor) => () => {
+export const onChangeCommandCombobox = (editor: Editor) => () => {
   const { selection } = editor
 
   if (

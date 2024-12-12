@@ -57,17 +57,21 @@ const defaultInitState: ComboboxState = {
 
 export const comboboxStore = createStore<ComboboxStore>((set) => ({
   ...defaultInitState,
-  open: ({ activeId, targetRange, text }) =>
+  open: ({ activeId, targetRange, text }) => {
+    document.body.setAttribute("data-combobox-open", "true")
     set(() => ({
       activeId,
       targetRange,
       text,
-    })),
-  reset: () =>
+    }))
+  },
+  reset: () => {
+    document.body.removeAttribute("data-combobox-open")
     set((state) => ({
       ...defaultInitState,
       byId: state.byId,
-    })),
+    }))
+  },
   setComboboxById: (state) => {
     set((before) => ({
       byId: before.byId[state.id]

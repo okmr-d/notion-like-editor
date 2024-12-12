@@ -55,7 +55,6 @@ export function CommandCombobox({
         if (item.text.toLowerCase().startsWith(searchLowerCase)) {
           return true
         }
-        console.log(item.data.keywords)
         return !!item.data.keywords?.some((keyword) =>
           keyword.startsWith(searchLowerCase)
         )
@@ -207,6 +206,10 @@ export function ComboboxContent(
       <div
         {...menuProps}
         className="pointer-events-auto w-[324px] max-h-80 overflow-y-auto p-1 border rounded-xl shadow-lg bg-background"
+        onPointerDown={(e) => {
+          // エディタからフォーカスを奪うのを防ぐ
+          e.preventDefault()
+        }}
       >
         {Component
           ? Component({ store: activeComboboxStore, filteredItems })

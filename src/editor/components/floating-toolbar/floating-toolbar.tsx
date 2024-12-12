@@ -11,14 +11,14 @@ import {
   useFloating,
   useInteractions,
 } from "@floating-ui/react"
+import { MarkToggle } from "./mark-toggle"
 import {
   BoldIcon,
-  ItalicIcon,
-  UnderlineIcon,
   CodeIcon,
+  ItalicIcon,
   StrikethroughIcon,
-} from "../icons"
-import { MarkToggle } from "./mark-toggle"
+  UnderlineIcon,
+} from "lucide-react"
 
 export const FloatingToolbar = () => {
   const editor = useSlate()
@@ -85,28 +85,36 @@ export const FloatingToolbar = () => {
           ...(middlewareData.hide?.referenceHidden && { visibility: "hidden" }),
         }}
         {...getFloatingProps()}
-        onMouseDown={(e) => {
-          // ツールバーがエディタからフォーカスを奪うのを防ぐ
+        onPointerDown={(e) => {
+          // エディタからフォーカスを奪うのを防ぐ
           e.preventDefault()
         }}
       >
         <div className="pointer-events-auto h-9 flex items-center rounded-lg border shadow bg-background p-1">
           <div className="flex items-center">
-            <MarkToggle markKey="bold" icon={<BoldIcon />} tooltip="太字" />
-            <MarkToggle markKey="italic" icon={<ItalicIcon />} tooltip="斜体" />
+            <MarkToggle
+              markKey="bold"
+              icon={<BoldIcon className="w-4 h-4" />}
+              tooltip="太字"
+            />
+            <MarkToggle
+              markKey="italic"
+              icon={<ItalicIcon className="w-4 h-4" />}
+              tooltip="斜体"
+            />
             <MarkToggle
               markKey="underline"
-              icon={<UnderlineIcon />}
+              icon={<UnderlineIcon className="w-4 h-4" />}
               tooltip="下線"
             />
             <MarkToggle
               markKey="strikethrough"
-              icon={<StrikethroughIcon />}
+              icon={<StrikethroughIcon className="w-4 h-4" />}
               tooltip="取り消し線"
             />
             <MarkToggle
               markKey="code"
-              icon={<CodeIcon />}
+              icon={<CodeIcon className="w-4 h-4" />}
               tooltip={<div>コードに変換</div>}
             />
           </div>

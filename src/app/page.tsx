@@ -1,7 +1,7 @@
 import { Icons } from "@/components/icons"
 import { ModeSwitcher } from "@/components/mode-switcher"
 import { Button } from "@/components/ui/button"
-import { Editor } from "@/editor"
+import { Editor, TooltipProvider } from "@/editor"
 import Link from "next/link"
 
 export default function Home() {

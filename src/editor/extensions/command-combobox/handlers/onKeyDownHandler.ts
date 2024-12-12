@@ -12,8 +12,9 @@ import {
   isElement,
 } from "../../../slate-utils"
 import { Hotkeys } from "../../../utils/hotkeys"
+import { ELEMENT_TITLE } from "@/editor/constants"
 
-export const onKeyDownHandler =
+export const onKeyDownCommandCombobox =
   (editor: Editor) => (event: React.KeyboardEvent) => {
     // "/", "；" が押されたとき、条件を満たしていればメニューを開く
     if (
@@ -104,6 +105,10 @@ const shouldShow: (editor: Editor) => boolean = (editor) => {
     return false
   }
   const currentNode = currentNodeEntry[0]
+
+  if (currentNode.type === ELEMENT_TITLE) {
+    return false
+  }
 
   const text = getNodeString(currentNode).trim()
   return text === ""

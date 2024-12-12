@@ -2,6 +2,7 @@ import { RenderElementProps } from "slate-react"
 import { usePlaceholderState } from "../../../hooks"
 import { BlockquoteElement } from "../../../types"
 import { cn } from "@/lib/utils"
+import { ElementLeftMenu } from "../../element-left-menu"
 
 export const ElementBlockquote = ({
   attributes,
@@ -14,7 +15,8 @@ export const ElementBlockquote = ({
   })
 
   return (
-    <div {...attributes} className="my-1">
+    <div {...attributes} className="group/element relative my-1">
+      <ElementLeftMenu element={element} />
       <blockquote className={cn("text-[16px]/[1.5] py-[3px] px-[2px]")}>
         <div className="px-4 border-l-[3px] border-current">
           <div

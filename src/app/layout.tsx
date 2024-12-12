@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className="overflow-hidden">
-      <body>
+      <body className="group/body">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -45,7 +45,8 @@ export const useComboboxItem = <TData extends Data = NoData>({
         item,
       }),
       children: Item,
-      onMouseDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      onPointerDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        // エディタからフォーカスを奪うのを防ぐ
         e.preventDefault()
 
         const onSelectItem = getComboboxStoreById(
