@@ -23,6 +23,7 @@ import {
   onKeyDownWritingMode,
   onMouseMoveWritingMode,
   WritingModeSwitch,
+  onKeyDownResetNode,
 } from "../extensions"
 import { FloatingToolbar } from "./floating-toolbar"
 import { Element } from "./element"
@@ -65,6 +66,7 @@ export const Editor = () => {
             onKeyDownWritingMode(editor)(event)
             onKeyDownExitBreak(editor)(event)
             onKeyDownSoftBreak(editor)(event)
+            onKeyDownResetNode(editor)(event)
           }}
           onMouseMove={(event) => {
             onMouseMoveWritingMode(editor)(event)
