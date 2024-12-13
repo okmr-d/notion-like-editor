@@ -44,7 +44,9 @@ export const removeMark = <E extends Editor>(
         delete marks[k]
       })
       editor.marks = marks
-      shouldChange && editor.onChange()
+      if (shouldChange) {
+        editor.onChange()
+      }
     }
   }
 }
