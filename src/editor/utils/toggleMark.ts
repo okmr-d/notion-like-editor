@@ -7,7 +7,7 @@ export const toggleMark = (editor: Editor, markKey: TogglableMarkKey) => {
   const isActive = isMarkActive(editor, markKey)
 
   if (isActive) {
-    removeMark(editor, markKey)
+    removeMark(editor, { key: markKey })
   } else {
     addMark(editor, markKey, true)
   }

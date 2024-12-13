@@ -24,6 +24,8 @@ import {
   onMouseMoveWritingMode,
   WritingModeSwitch,
   onKeyDownResetNode,
+  onKeyDownAutoformat,
+  withAutoformat,
 } from "../extensions"
 import { FloatingToolbar } from "./floating-toolbar"
 import { Element } from "./element"
@@ -37,7 +39,7 @@ const initialValue: Editor_Value = [
 
 export const Editor = () => {
   const [editor] = useState(() =>
-    withNormalize(withHistory(withReact(createEditor())))
+    withAutoformat(withNormalize(withHistory(withReact(createEditor()))))
   )
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
@@ -67,6 +69,7 @@ export const Editor = () => {
             onKeyDownExitBreak(editor)(event)
             onKeyDownSoftBreak(editor)(event)
             onKeyDownResetNode(editor)(event)
+            onKeyDownAutoformat(editor)(event)
           }}
           onMouseMove={(event) => {
             onMouseMoveWritingMode(editor)(event)
