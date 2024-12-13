@@ -11,22 +11,24 @@ import {
 } from "slate-react"
 import { withHistory } from "slate-history"
 import { Editor_Value } from "../types"
-import { FloatingToolbar } from "./floating-toolbar"
-import { createTitleElement, withNormalize } from "../extensions"
-import { Element } from "./element"
-import { Leaf } from "./leaf"
 import {
+  createTitleElement,
+  withNormalize,
   KEY_COMMAND_BY_BUTTON,
   KEY_COMMAND_BY_SLASH,
   onChangeCommandCombobox,
   onKeyDownCommandCombobox,
-} from "../extensions/command-combobox"
-import { CommandCombobox } from "./command-combobox"
-import {
+  onKeyDownExitBreak,
+  onKeyDownSoftBreak,
   onKeyDownWritingMode,
   onMouseMoveWritingMode,
   WritingModeSwitch,
-} from "../extensions/writing-mode"
+} from "../extensions"
+import { FloatingToolbar } from "./floating-toolbar"
+import { Element } from "./element"
+import { Leaf } from "./leaf"
+
+import { CommandCombobox } from "./command-combobox"
 
 const initialValue: Editor_Value = [
   createTitleElement({ children: [{ text: "" }] }),
@@ -61,6 +63,8 @@ export const Editor = () => {
           onKeyDown={(event) => {
             onKeyDownCommandCombobox(editor)(event)
             onKeyDownWritingMode(editor)(event)
+            onKeyDownExitBreak(editor)(event)
+            onKeyDownSoftBreak(editor)(event)
           }}
           onMouseMove={(event) => {
             onMouseMoveWritingMode(editor)(event)
