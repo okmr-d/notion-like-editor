@@ -26,11 +26,11 @@ import {
   onKeyDownResetNode,
   onKeyDownAutoformat,
   withAutoformat,
+  onKeyDownToggleMark,
 } from "../extensions"
 import { FloatingToolbar } from "./floating-toolbar"
 import { Element } from "./element"
 import { Leaf } from "./leaf"
-
 import { CommandCombobox } from "./command-combobox"
 import { DndProvider } from "./dnd"
 import { TooltipProvider } from "./tooltip"
@@ -52,6 +52,19 @@ export const Editor = () => {
     []
   )
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      onKeyDownCommandCombobox(editor)(event)
+      onKeyDownWritingMode(editor)(event)
+      onKeyDownExitBreak(editor)(event)
+      onKeyDownSoftBreak(editor)(event)
+      onKeyDownResetNode(editor)(event)
+      onKeyDownAutoformat(editor)(event)
+      onKeyDownToggleMark(editor)(event)
+    },
+    [editor]
+  )
+
   return (
     <DndProvider>
       <TooltipProvider delayDuration={200} disableHoverableContent>
@@ -66,14 +79,7 @@ export const Editor = () => {
             id="editor"
             renderElement={renderElement}
             renderLeaf={renderLeaf}
-            onKeyDown={(event) => {
-              onKeyDownCommandCombobox(editor)(event)
-              onKeyDownWritingMode(editor)(event)
-              onKeyDownExitBreak(editor)(event)
-              onKeyDownSoftBreak(editor)(event)
-              onKeyDownResetNode(editor)(event)
-              onKeyDownAutoformat(editor)(event)
-            }}
+            onKeyDown={handleKeyDown}
             onMouseMove={(event) => {
               onMouseMoveWritingMode(editor)(event)
             }}

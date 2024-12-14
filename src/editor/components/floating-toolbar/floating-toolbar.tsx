@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useFocused, useSlate } from "slate-react"
 import { Editor, Range } from "slate"
 import {
@@ -19,6 +19,7 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "lucide-react"
+import { IS_APPLE } from "@/editor/utils/environment"
 
 export const FloatingToolbar = () => {
   const editor = useSlate()
@@ -103,27 +104,62 @@ export const FloatingToolbar = () => {
             <MarkToggle
               markKey="bold"
               icon={<BoldIcon className="w-4 h-4" />}
-              tooltip="太字"
+              tooltip={
+                <div className="font-medium">
+                  <div>太字</div>
+                  <div className="text-muted-foreground">
+                    {IS_APPLE ? "⌘B" : "Ctrl+B"}
+                  </div>
+                </div>
+              }
             />
             <MarkToggle
               markKey="italic"
               icon={<ItalicIcon className="w-4 h-4" />}
-              tooltip="斜体"
+              tooltip={
+                <div className="font-medium">
+                  <div>斜体</div>
+                  <div className="text-muted-foreground">
+                    {IS_APPLE ? "⌘I" : "Ctrl+I"}
+                  </div>
+                </div>
+              }
             />
             <MarkToggle
               markKey="underline"
               icon={<UnderlineIcon className="w-4 h-4" />}
-              tooltip="下線"
+              tooltip={
+                <div className="font-medium">
+                  <div>下線</div>
+                  <div className="text-muted-foreground">
+                    {IS_APPLE ? "⌘U" : "Ctrl+U"}
+                  </div>
+                </div>
+              }
             />
             <MarkToggle
               markKey="strikethrough"
               icon={<StrikethroughIcon className="w-4 h-4" />}
-              tooltip="取り消し線"
+              tooltip={
+                <div className="font-medium">
+                  <div>取り消し線</div>
+                  <div className="text-muted-foreground">
+                    {IS_APPLE ? "⌘⇧X" : "Ctrl+Shift+X"}
+                  </div>
+                </div>
+              }
             />
             <MarkToggle
               markKey="code"
               icon={<CodeIcon className="w-4 h-4" />}
-              tooltip={<div>コードに変換</div>}
+              tooltip={
+                <div className="font-medium">
+                  <div>コードに変換</div>
+                  <div className="text-muted-foreground">
+                    {IS_APPLE ? "⌘E" : "Ctrl+E"}
+                  </div>
+                </div>
+              }
             />
           </div>
         </div>

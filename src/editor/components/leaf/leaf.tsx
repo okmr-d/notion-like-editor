@@ -12,6 +12,7 @@ export const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   if (leaf.underline) {
     children = <span className="underline">{children}</span>
   }
+
   if (leaf.strikethrough) {
     children = <span className="line-through">{children}</span>
   }
