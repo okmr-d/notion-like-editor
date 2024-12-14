@@ -3,7 +3,6 @@ import { usePlaceholderState } from "../../../hooks"
 import { cn } from "@/lib/utils"
 import { useRef } from "react"
 import { useMergeRefs } from "@floating-ui/react"
-import { Button } from "@/components/ui/button"
 import { ElementLeftMenu } from "../../element-left-menu"
 
 export const ElementParagraph = ({
@@ -11,17 +10,18 @@ export const ElementParagraph = ({
   children,
   element,
 }: RenderElementProps) => {
-  const editor = useSlateStatic()
+  const elementRef = useRef<HTMLElement>(null)
+  const ref = useMergeRefs([elementRef, attributes.ref])
 
   const { showPlaceholder } = usePlaceholderState({ element })
 
-  const nodeRef = useRef<HTMLElement>(null)
-
-  const ref = useMergeRefs([nodeRef, attributes.ref])
-
   return (
     <div {...attributes} ref={ref} className="group/element relative my-px">
-      <ElementLeftMenu element={element} wrapperClassName="h-[30px]" />
+      <ElementLeftMenu
+        element={element}
+        elementRef={elementRef}
+        menuPositionTop={3}
+      />
       <div
         className={cn(
           "py-[3px] px-[2px] text-[16px]/[24px] caret-foreground",

@@ -1,10 +1,5 @@
 import { Button } from "@/components/ui/button"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip"
 import { useCallback } from "react"
 import { Element } from "slate"
 import { ReactEditor, useSlateStatic } from "slate-react"
@@ -15,7 +10,6 @@ import {
   KEY_COMMAND_BY_BUTTON,
 } from "../../extensions"
 import { ELEMENT_PARAGRAPH } from "../../constants"
-import { writingModeStore } from "@/editor/extensions/writing-mode"
 
 export const ElementAddButton = ({ element }: { element: Element }) => {
   const editor = useSlateStatic()
@@ -61,40 +55,38 @@ export const ElementAddButton = ({ element }: { element: Element }) => {
   )
 
   return (
-    <TooltipProvider>
-      <Tooltip delayDuration={200}>
-        <TooltipTrigger asChild>
-          <Button
-            tabIndex={-1}
-            aria-label="クリックして下にブロックを追加。Opt＋クリックで上に追加。"
-            variant="ghost"
-            size="icon"
-            className="w-6 h-6 rounded-sm"
-            onPointerDown={(e) => {
-              // エディタからフォーカスを奪うのを防ぐ
-              e.preventDefault()
-            }}
-            onClick={handleClick}
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          tabIndex={-1}
+          aria-label="クリックして下にブロックを追加。Opt＋クリックで上に追加。"
+          variant="ghost"
+          size="icon"
+          className="w-6 h-6 rounded-sm"
+          onPointerDown={(e) => {
+            // エディタからフォーカスを奪うのを防ぐ
+            e.preventDefault()
+          }}
+          onClick={handleClick}
+        >
+          <svg
+            role="graphics-symbol"
+            viewBox="0 0 16 16"
+            className="pointer-events-none w-4 h-4 fill-foreground opacity-35"
           >
-            <svg
-              role="graphics-symbol"
-              viewBox="0 0 16 16"
-              className="pointer-events-none w-4 h-4 fill-foreground opacity-35"
-            >
-              <path d="M7.977 14.963c.407 0 .747-.324.747-.723V8.72h5.362c.399 0 .74-.34.74-.747a.746.746 0 00-.74-.738H8.724V1.706c0-.398-.34-.722-.747-.722a.732.732 0 00-.739.722v5.529h-5.37a.746.746 0 00-.74.738c0 .407.341.747.74.747h5.37v5.52c0 .399.332.723.739.723z"></path>
-            </svg>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom" collisionPadding={20}>
-          <div className="text-center">
-            クリックして<span className="text-muted-foreground">下に追加</span>
-          </div>
-          <div className="text-center">
-            Opt＋クリック/Alt＋クリックで
-            <span className="text-muted-foreground">上に追加</span>
-          </div>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+            <path d="M7.977 14.963c.407 0 .747-.324.747-.723V8.72h5.362c.399 0 .74-.34.74-.747a.746.746 0 00-.74-.738H8.724V1.706c0-.398-.34-.722-.747-.722a.732.732 0 00-.739.722v5.529h-5.37a.746.746 0 00-.74.738c0 .407.341.747.74.747h5.37v5.52c0 .399.332.723.739.723z"></path>
+          </svg>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" collisionPadding={20}>
+        <div className="text-center font-medium">
+          クリックして<span className="text-muted-foreground">下に追加</span>
+        </div>
+        <div className="text-center font-medium">
+          Opt＋クリック/Alt＋クリックで
+          <span className="text-muted-foreground">上に追加</span>
+        </div>
+      </TooltipContent>
+    </Tooltip>
   )
 }

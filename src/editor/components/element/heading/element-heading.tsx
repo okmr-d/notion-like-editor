@@ -2,9 +2,10 @@ import { RenderElementProps } from "slate-react"
 import { match } from "ts-pattern"
 import { usePlaceholderState } from "../../../hooks"
 import { HeadingElement } from "../../../types"
-import { useMemo } from "react"
+import { useMemo, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { ElementLeftMenu } from "../../element-left-menu"
+import { useMergeRefs } from "@floating-ui/react"
 
 export const ElementHeading = ({
   attributes,
@@ -13,6 +14,9 @@ export const ElementHeading = ({
 }: RenderElementProps & {
   element: HeadingElement
 }) => {
+  const elementRef = useRef<HTMLElement>(null)
+  const ref = useMergeRefs([elementRef, attributes.ref])
+
   const { showPlaceholder } = usePlaceholderState({
     element,
     hideOnBlur: false,
@@ -24,6 +28,7 @@ export const ElementHeading = ({
     className,
     placeholder,
     leftMenuWrapperClassName,
+    menuPositionTop,
   } = useMemo(
     () =>
       match(element.type)
@@ -33,6 +38,7 @@ export const ElementHeading = ({
           className: "text-[30px]/[40px] font-semibold py-[3px] px-[2px]",
           placeholder: "見出し1",
           leftMenuWrapperClassName: "h-[46px]",
+          menuPositionTop: 11,
         }))
         .with("heading-2", () => ({
           Component: "h3" as const,
@@ -40,6 +46,7 @@ export const ElementHeading = ({
           className: "text-[24px]/[32px] font-semibold py-[3px] px-[2px]",
           placeholder: "見出し2",
           leftMenuWrapperClassName: "h-[38px]",
+          menuPositionTop: 7,
         }))
         .with("heading-3", () => ({
           Component: "h4" as const,
@@ -47,6 +54,7 @@ export const ElementHeading = ({
           className: "text-[20px]/[26px] font-semibold py-[3px] px-[2px]",
           placeholder: "見出し3",
           leftMenuWrapperClassName: "h-[32px]",
+          menuPositionTop: 4,
         }))
         .exhaustive(),
     [element.type]
@@ -55,11 +63,13 @@ export const ElementHeading = ({
   return (
     <div
       {...attributes}
+      ref={ref}
       className={cn("group/element relative", containerClassName)}
     >
       <ElementLeftMenu
         element={element}
-        wrapperClassName={leftMenuWrapperClassName}
+        elementRef={elementRef}
+        menuPositionTop={menuPositionTop}
       />
       <Component
         className={cn(

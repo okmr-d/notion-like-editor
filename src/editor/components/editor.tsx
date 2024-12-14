@@ -32,6 +32,8 @@ import { Element } from "./element"
 import { Leaf } from "./leaf"
 
 import { CommandCombobox } from "./command-combobox"
+import { DndProvider } from "./dnd"
+import { TooltipProvider } from "./tooltip"
 
 const initialValue: Editor_Value = [
   createTitleElement({ children: [{ text: "" }] }),
@@ -51,36 +53,38 @@ export const Editor = () => {
   )
 
   return (
-    <>
-      <Slate
-        editor={editor}
-        initialValue={initialValue}
-        onChange={() => {
-          onChangeCommandCombobox(editor)()
-        }}
-      >
-        <Editable
-          id="editor"
-          renderElement={renderElement}
-          renderLeaf={renderLeaf}
-          onKeyDown={(event) => {
-            onKeyDownCommandCombobox(editor)(event)
-            onKeyDownWritingMode(editor)(event)
-            onKeyDownExitBreak(editor)(event)
-            onKeyDownSoftBreak(editor)(event)
-            onKeyDownResetNode(editor)(event)
-            onKeyDownAutoformat(editor)(event)
+    <DndProvider>
+      <TooltipProvider delayDuration={200} disableHoverableContent>
+        <Slate
+          editor={editor}
+          initialValue={initialValue}
+          onChange={() => {
+            onChangeCommandCombobox(editor)()
           }}
-          onMouseMove={(event) => {
-            onMouseMoveWritingMode(editor)(event)
-          }}
-          className="grid grid-cols-[minmax(96px,1fr)_minmax(auto,708px)_minmax(96px,1fr)] max-w-full outline-none pb-[30vh] [&>*]:col-start-2"
-        />
-        <FloatingToolbar />
-        <CommandCombobox id={KEY_COMMAND_BY_SLASH} />
-        <CommandCombobox id={KEY_COMMAND_BY_BUTTON} />
-      </Slate>
-      <WritingModeSwitch />
-    </>
+        >
+          <Editable
+            id="editor"
+            renderElement={renderElement}
+            renderLeaf={renderLeaf}
+            onKeyDown={(event) => {
+              onKeyDownCommandCombobox(editor)(event)
+              onKeyDownWritingMode(editor)(event)
+              onKeyDownExitBreak(editor)(event)
+              onKeyDownSoftBreak(editor)(event)
+              onKeyDownResetNode(editor)(event)
+              onKeyDownAutoformat(editor)(event)
+            }}
+            onMouseMove={(event) => {
+              onMouseMoveWritingMode(editor)(event)
+            }}
+            className="grid grid-cols-[minmax(96px,1fr)_minmax(auto,708px)_minmax(96px,1fr)] max-w-full outline-none pb-[30vh] [&>*]:col-start-2"
+          />
+          <FloatingToolbar />
+          <CommandCombobox id={KEY_COMMAND_BY_SLASH} />
+          <CommandCombobox id={KEY_COMMAND_BY_BUTTON} />
+        </Slate>
+        <WritingModeSwitch />
+      </TooltipProvider>
+    </DndProvider>
   )
 }

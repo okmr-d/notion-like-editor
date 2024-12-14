@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useFocused, useSlate } from "slate-react"
 import { Editor, Range } from "slate"
 import {
@@ -74,6 +74,14 @@ export const FloatingToolbar = () => {
       setIsOpen(true)
     }
   }, [editor, editor.selection, inFocus, refs])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.setAttribute("data-floating-toolbar", "true")
+    } else {
+      document.body.removeAttribute("data-floating-toolbar")
+    }
+  }, [isOpen])
 
   return isOpen ? (
     <FloatingPortal id="editor-container">
