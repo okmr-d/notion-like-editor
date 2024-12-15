@@ -41,7 +41,7 @@ export const ElementDragHandleButton = ({
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="bottom" collisionPadding={20}>
+        <TooltipContent side="bottom">
           <div className="text-center font-medium">
             ドラッグして
             <span className="text-muted-foreground">移動する</span>

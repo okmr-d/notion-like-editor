@@ -20,4 +20,4 @@ export const getAboveNode = <
   editor: E,
   options?: GetAboveNodeOptions<E>
 ): NodeEntry<N> | undefined =>
-  Editor.above(editor as any, getQueryOptions(editor, options)) as any
+  Editor.above(editor, getQueryOptions(editor, options)) as any

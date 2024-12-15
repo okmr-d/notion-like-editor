@@ -1,7 +1,10 @@
 import { Editor } from "slate"
 import { AncestorOf, getAboveNode, GetAboveNodeOptions } from "../interfaces"
 
-export const getBlockAbove = <N extends AncestorOf<E>, E extends Editor>(
+export const getBlockAbove = <
+  N extends AncestorOf<E>,
+  E extends Editor = Editor
+>(
   editor: E,
   options: GetAboveNodeOptions<E> = {}
 ) =>

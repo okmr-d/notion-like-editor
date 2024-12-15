@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useFocused, useSlate } from "slate-react"
+import { useSlate } from "slate-react"
 import { Editor, Range } from "slate"
 import {
   autoUpdate,
@@ -19,11 +19,11 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "lucide-react"
-import { IS_APPLE } from "@/editor/utils/environment"
+import { IS_APPLE } from "../../utils/environment"
+import { TurnIntoDropdownMenu } from "../turn-into-dropdown-menu"
 
 export const FloatingToolbar = () => {
   const editor = useSlate()
-  const inFocus = useFocused()
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -54,7 +54,6 @@ export const FloatingToolbar = () => {
 
     if (
       !selection ||
-      !inFocus ||
       Range.isCollapsed(selection) ||
       Editor.string(editor, selection) === "" ||
       // 選択範囲にtitle要素を含む
@@ -74,7 +73,7 @@ export const FloatingToolbar = () => {
       })
       setIsOpen(true)
     }
-  }, [editor, editor.selection, inFocus, refs])
+  }, [editor, editor.selection, refs])
 
   useEffect(() => {
     if (isOpen) {
@@ -99,8 +98,9 @@ export const FloatingToolbar = () => {
           e.preventDefault()
         }}
       >
-        <div className="pointer-events-auto h-9 flex items-center rounded-lg border shadow bg-background p-1">
+        <div className="pointer-events-auto flex items-center rounded-lg border shadow bg-background p-1">
           <div className="flex items-center">
+            <TurnIntoDropdownMenu />
             <MarkToggle
               markKey="bold"
               icon={<BoldIcon className="w-4 h-4" />}

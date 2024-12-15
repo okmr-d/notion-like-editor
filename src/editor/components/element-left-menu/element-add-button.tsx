@@ -78,7 +78,7 @@ export const ElementAddButton = ({ element }: { element: Element }) => {
           </svg>
         </Button>
       </TooltipTrigger>
-      <TooltipContent side="bottom" collisionPadding={20}>
+      <TooltipContent side="bottom">
         <div className="text-center font-medium">
           クリックして<span className="text-muted-foreground">下に追加</span>
         </div>

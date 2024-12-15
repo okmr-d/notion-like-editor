@@ -15,8 +15,8 @@ import {
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
+  PilcrowIcon,
   TextQuoteIcon,
-  TypeIcon,
 } from "lucide-react"
 
 export enum AddCommandKey {
@@ -51,7 +51,7 @@ export const BASIC_COMMANDS: TComboboxItem<AddCommandItemData>[] = [
     text: "テキスト",
     data: {
       group: AddCommandGroup.BASIC,
-      thumbnail: <TypeIcon className="w-5 h-5" />,
+      thumbnail: <PilcrowIcon className="w-5 h-5" />,
       description: "すぐに文章を書き始められます。",
       keywords: ["テキスト", "てきすと", "text", "paragraph"],
     },

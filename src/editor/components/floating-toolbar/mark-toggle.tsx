@@ -1,14 +1,10 @@
 import { ReactNode } from "react"
 import { useSlate } from "slate-react"
 import { isMarkActive, toggleMark } from "../../utils"
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from "../tooltip"
+import { Tooltip, TooltipTrigger, TooltipContent } from "../tooltip"
 import { TogglableMarkKey } from "../../types"
 import { Toggle } from "@radix-ui/react-toggle"
+import { Button } from "../button"
 
 export const MarkToggle = ({
   markKey,
@@ -25,10 +21,11 @@ export const MarkToggle = ({
       <Toggle
         onClick={() => toggleMark(editor, markKey)}
         pressed={isMarkActive(editor, markKey)}
-        className="select-none flex size-7 items-center justify-center gap-2 rounded-md text-sm font-medium text-foreground transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground"
         asChild
       >
-        <TooltipTrigger>{icon}</TooltipTrigger>
+        <TooltipTrigger asChild>
+          <Button size="icon-sm">{icon}</Button>
+        </TooltipTrigger>
       </Toggle>
       <TooltipContent>{tooltip}</TooltipContent>
     </Tooltip>
