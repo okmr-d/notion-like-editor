@@ -49,7 +49,6 @@ export const onKeyDownResetNode =
     if (isCollapsed(editor.selection)) {
       rules.forEach(({ hotkey, predicate, types, onReset }) => {
         if (
-          hotkey &&
           isHotkey(hotkey, event) &&
           predicate(editor) &&
           someNode(editor, { match: { type: types } })
@@ -59,7 +58,7 @@ export const onKeyDownResetNode =
           setElements(editor, { type: ELEMENT_PARAGRAPH })
 
           if (onReset) {
-            onReset(editor as any)
+            onReset(editor)
           }
 
           reset = true
