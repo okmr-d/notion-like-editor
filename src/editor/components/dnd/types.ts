@@ -1,8 +1,7 @@
-export interface DragItemNode {
+export type DragItem = {
   id: string
-  [key: string]: unknown
 }
-
-export type DropLineDirection = "" | "top" | "bottom"
-
-export type DropDirection = "top" | "bottom" | undefined
+export type DropAreaItem = {
+  id: string
+  direction: "top" | "bottom"
+}

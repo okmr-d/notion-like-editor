@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip"
 import { useCallback } from "react"
 import { Element } from "slate"
@@ -10,6 +9,7 @@ import {
   KEY_COMMAND_BY_BUTTON,
 } from "../../extensions"
 import { ELEMENT_PARAGRAPH } from "../../constants"
+import { Button } from "../button"
 
 export const ElementAddButton = ({ element }: { element: Element }) => {
   const editor = useSlateStatic()
@@ -60,9 +60,7 @@ export const ElementAddButton = ({ element }: { element: Element }) => {
         <Button
           tabIndex={-1}
           aria-label="クリックして下にブロックを追加。Opt＋クリックで上に追加。"
-          variant="ghost"
-          size="icon"
-          className="w-6 h-6 rounded-sm"
+          size="icon-xs"
           onPointerDown={(e) => {
             // エディタからフォーカスを奪うのを防ぐ
             e.preventDefault()

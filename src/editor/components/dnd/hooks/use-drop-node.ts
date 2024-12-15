@@ -1,28 +1,30 @@
-import { useRef, useState } from "react"
-import { Editor } from "slate"
+import { useRef } from "react"
+import { Editor, Element } from "slate"
 import { ReactEditor } from "slate-react"
 import { DropTargetHookSpec, DropTargetMonitor, useDrop } from "react-dnd"
-import { DragItemNode, DropLineDirection } from "../types"
-import { getHoverDirection, getNewDirection } from "../utils"
-import { onDropNode } from "../transforms"
+import { dropNode } from "../transforms"
 import { collapseSelection, isExpanded } from "../../../slate-utils"
+import { DragItem, DropAreaItem } from "../types"
 
 export interface UseDropNodeOptions
-  extends DropTargetHookSpec<DragItemNode, unknown, { isOver: boolean }> {
-  id: string
+  extends DropTargetHookSpec<
+    DragItem,
+    unknown,
+    { isOver: boolean; canDrop: boolean }
+  > {
+  dropArea: DropAreaItem
 }
 
 export const useDropNode = (
   editor: Editor,
-  { id, ...options }: UseDropNodeOptions
+  { dropArea, ...options }: UseDropNodeOptions
 ) => {
   const dropRef = useRef<HTMLDivElement>(null)
-  const [dropLine, setDropLine] = useState<DropLineDirection>("")
 
-  const [{ isOver }, drop] = useDrop<
-    DragItemNode,
+  const [{ isOver, canDrop }, drop] = useDrop<
+    DragItem,
     unknown,
-    { isOver: boolean }
+    { isOver: boolean; canDrop: boolean }
   >({
     canDrop: (dragItem) => {
       return true
@@ -31,25 +33,14 @@ export const useDropNode = (
       // 子ですでにドロップ済み
       if (monitor.didDrop()) return
 
-      onDropNode(editor, { dropRef, id, dragItem, monitor })
+      dropNode(editor, { dragItem, dropArea })
     },
     collect: (monitor) => ({
       isOver: monitor.isOver({ shallow: true }), // only check depth 1
+      canDrop: monitor.canDrop(),
     }),
-    hover(item: DragItemNode, monitor: DropTargetMonitor) {
-      const direction = getHoverDirection({
-        dragItem: item,
-        monitor,
-        dropRef,
-        id,
-      })
-      const dropLineDir = getNewDirection(dropLine, direction)
-
-      if (dropLineDir) {
-        setDropLine(dropLineDir)
-      }
-
-      if (direction && isExpanded(editor.selection)) {
+    hover: (item, monitor) => {
+      if (isExpanded(editor.selection)) {
         ReactEditor.focus(editor)
         collapseSelection(editor)
       }
@@ -57,11 +48,7 @@ export const useDropNode = (
     ...options,
   })
 
-  if (!isOver && dropLine) {
-    setDropLine("")
-  }
-
   drop(dropRef)
 
-  return { isOver, dropRef, dropLine }
+  return { isOver, canDrop, dropRef }
 }

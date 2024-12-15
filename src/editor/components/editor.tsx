@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useState } from "react"
-import { createEditor } from "slate"
+import { createEditor, Descendant } from "slate"
 import {
   Slate,
   Editable,
@@ -22,11 +22,11 @@ import {
   onKeyDownSoftBreak,
   onKeyDownWritingMode,
   onMouseMoveWritingMode,
-  WritingModeSwitch,
   onKeyDownResetNode,
   onKeyDownAutoformat,
   withAutoformat,
   onKeyDownToggleMark,
+  withNodeId,
 } from "../extensions"
 import { FloatingToolbar } from "./floating-toolbar"
 import { Element } from "./element"
@@ -34,6 +34,7 @@ import { Leaf } from "./leaf"
 import { CommandCombobox } from "./command-combobox"
 import { DndProvider } from "./dnd"
 import { TooltipProvider } from "./tooltip"
+import { BodyDataAttributeSwitch } from "./body-data-attribute-switch"
 
 const initialValue: Editor_Value = [
   createTitleElement({ children: [{ text: "" }] }),
@@ -41,7 +42,9 @@ const initialValue: Editor_Value = [
 
 export const Editor = () => {
   const [editor] = useState(() =>
-    withAutoformat(withNormalize(withHistory(withReact(createEditor()))))
+    withAutoformat(
+      withNormalize(withNodeId(withHistory(withReact(createEditor()))))
+    )
   )
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
@@ -50,6 +53,13 @@ export const Editor = () => {
   const renderLeaf = useCallback(
     (props: RenderLeafProps) => <Leaf {...props} />,
     []
+  )
+
+  const handleChange = useCallback(
+    (value: Descendant[]) => {
+      onChangeCommandCombobox(editor)()
+    },
+    [editor]
   )
 
   const handleKeyDown = useCallback(
@@ -65,31 +75,33 @@ export const Editor = () => {
     [editor]
   )
 
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent) => {
+      onMouseMoveWritingMode(editor)(event)
+    },
+    [editor]
+  )
+
   return (
     <DndProvider>
       <TooltipProvider delayDuration={200} disableHoverableContent>
         <Slate
           editor={editor}
           initialValue={initialValue}
-          onChange={() => {
-            onChangeCommandCombobox(editor)()
-          }}
+          onChange={handleChange}
         >
           <Editable
-            id="editor"
             renderElement={renderElement}
             renderLeaf={renderLeaf}
             onKeyDown={handleKeyDown}
-            onMouseMove={(event) => {
-              onMouseMoveWritingMode(editor)(event)
-            }}
+            onMouseMove={handleMouseMove}
             className="grid grid-cols-[minmax(96px,1fr)_minmax(auto,708px)_minmax(96px,1fr)] max-w-full outline-none pb-[30vh] [&>*]:col-start-2"
           />
           <FloatingToolbar />
           <CommandCombobox id={KEY_COMMAND_BY_SLASH} />
           <CommandCombobox id={KEY_COMMAND_BY_BUTTON} />
         </Slate>
-        <WritingModeSwitch />
+        <BodyDataAttributeSwitch />
       </TooltipProvider>
     </DndProvider>
   )

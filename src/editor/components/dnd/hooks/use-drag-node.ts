@@ -1,39 +1,38 @@
 import { DragSourceHookSpec, useDrag } from "react-dnd"
-import { DragItemNode } from "../types"
 import { Editor } from "slate"
 import { ReactEditor } from "slate-react"
+import { DragItem } from "../types"
+import { editorStateStore } from "../../../stores"
 
-export interface UseDragNodeOptions
-  extends DragSourceHookSpec<DragItemNode, unknown, { isDragging: boolean }> {
-  id: string
-}
+export type UseDragNodeOptions = DragSourceHookSpec<
+  DragItem,
+  unknown,
+  { isDragging: boolean }
+>
 
 export const useDragNode = (
   editor: Editor,
-  { id, item, ...options }: UseDragNodeOptions
+  { item, ...options }: UseDragNodeOptions
 ) => {
   const [{ isDragging }, dragRef] = useDrag<
-    DragItemNode,
+    DragItem,
     unknown,
     { isDragging: boolean }
   >(
     () => ({
       item: (monitor) => {
-        document.body.setAttribute("data-dragging", "true")
-        document.body.classList.add("!cursor-grabbing")
+        editorStateStore.setState({ isDragging: true })
         ReactEditor.blur(editor)
 
-        return {
-          id,
-          ...(typeof item === "function" ? item(monitor) : item),
-        }
+        const _item = typeof item === "function" ? item(monitor) : item
+
+        return _item ?? { id: "0" }
       },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: () => {
-        document.body.removeAttribute("data-dragging")
-        document.body.classList.remove("!cursor-grabbing")
+        editorStateStore.setState({ isDragging: false })
         ReactEditor.focus(editor)
       },
       options: {
@@ -41,7 +40,7 @@ export const useDragNode = (
       },
       ...options,
     }),
-    []
+    [item]
   )
 
   return {

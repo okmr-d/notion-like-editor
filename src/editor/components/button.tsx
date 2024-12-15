@@ -19,8 +19,9 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground active:brightness-95",
       },
       size: {
-        sm: "h-7 px-2",
-        "icon-sm": "h-7 w-7",
+        sm: "h-7 px-2 rounded-md",
+        "icon-sm": "h-7 w-7 rounded-md",
+        "icon-xs": "h-6 w-6 rounded-sm",
       },
     },
     defaultVariants: {

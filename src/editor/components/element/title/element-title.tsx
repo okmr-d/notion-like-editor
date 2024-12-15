@@ -3,6 +3,7 @@ import { usePlaceholderState } from "../../../hooks"
 import { cn } from "@/lib/utils"
 import { useRef } from "react"
 import { useMergeRefs } from "@floating-ui/react"
+import { DropArea } from "../../dnd"
 
 export const ElementTitle = ({
   attributes,
@@ -18,7 +19,7 @@ export const ElementTitle = ({
   })
 
   return (
-    <div {...attributes} ref={ref} className="pt-28 pb-3">
+    <div {...attributes} ref={ref} className="relative pt-28 pb-3">
       <h1
         className={cn(
           "text-[40px]/[1.2] font-bold pt-[3px] px-[2px]",
@@ -29,6 +30,7 @@ export const ElementTitle = ({
       >
         {children}
       </h1>
+      <DropArea element={element} elementRef={elementRef} direction="bottom" />
     </div>
   )
 }

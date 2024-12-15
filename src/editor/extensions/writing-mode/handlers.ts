@@ -1,15 +1,15 @@
 import { Editor } from "slate"
-import { writingModeStore } from "./writing-mode.store"
-import isHotkey, { isKeyHotkey } from "is-hotkey"
+import { editorStateStore } from "../../stores"
+import isHotkey from "is-hotkey"
 
 export const onKeyDownWritingMode =
   (editor: Editor) => (event: React.KeyboardEvent) => {
     if (!isHotkey(["Alt", "opt"], { byKey: true })(event)) {
-      writingModeStore.setState({ isWritingMode: true })
+      editorStateStore.setState({ isWritingMode: true })
     }
   }
 
 export const onMouseMoveWritingMode =
   (editor: Editor) => (event: React.MouseEvent) => {
-    writingModeStore.setState({ isWritingMode: false })
+    editorStateStore.setState({ isWritingMode: false })
   }

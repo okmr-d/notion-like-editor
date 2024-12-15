@@ -81,7 +81,7 @@ export const withNormalize = (editor: Editor) => {
           normalizeRedundantAttributes(
             editor,
             [currentNode, currentPath],
-            ["type", "children"]
+            ["id", "type", "children"]
           )
         ) {
           return

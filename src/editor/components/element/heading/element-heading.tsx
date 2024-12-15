@@ -6,6 +6,7 @@ import { useMemo, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { ElementLeftMenu } from "../../element-left-menu"
 import { useMergeRefs } from "@floating-ui/react"
+import { DropArea } from "../../dnd"
 
 export const ElementHeading = ({
   attributes,
@@ -81,6 +82,7 @@ export const ElementHeading = ({
       >
         {children}
       </Component>
+      <DropArea element={element} elementRef={elementRef} direction="bottom" />
     </div>
   )
 }

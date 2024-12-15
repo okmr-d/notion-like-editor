@@ -16,7 +16,7 @@ export const ElementLeftMenu = ({
     <div
       contentEditable={false}
       className={cn(
-        "opacity-0 group-hover/element:opacity-100 transition-[visibility,opacity] absolute inset-y-0 pr-0.5 right-full w-40 flex items-start justify-end",
+        "opacity-0 group-hover/element:opacity-100 transition-[visibility,opacity] absolute inset-y-0 pr-0.5 right-full w-40 flex items-start justify-end select-none",
         // data-writing-mode
         "group-data-[writing-mode]/body:opacity-0 group-data-[writing-mode]/body:invisible",
         // data-combobox-open

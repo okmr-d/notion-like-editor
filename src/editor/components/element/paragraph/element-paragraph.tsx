@@ -1,9 +1,10 @@
-import { RenderElementProps, useSlateStatic } from "slate-react"
+import { RenderElementProps } from "slate-react"
 import { usePlaceholderState } from "../../../hooks"
 import { cn } from "@/lib/utils"
 import { useRef } from "react"
 import { useMergeRefs } from "@floating-ui/react"
 import { ElementLeftMenu } from "../../element-left-menu"
+import { DropArea } from "../../dnd"
 
 export const ElementParagraph = ({
   attributes,
@@ -16,7 +17,12 @@ export const ElementParagraph = ({
   const { showPlaceholder } = usePlaceholderState({ element })
 
   return (
-    <div {...attributes} ref={ref} className="group/element relative my-px">
+    <div
+      {...attributes}
+      ref={ref}
+      className="group/element relative my-px"
+      data-id={element.id}
+    >
       <ElementLeftMenu
         element={element}
         elementRef={elementRef}
@@ -32,6 +38,7 @@ export const ElementParagraph = ({
       >
         {children}
       </div>
+      <DropArea element={element} elementRef={elementRef} direction="bottom" />
     </div>
   )
 }

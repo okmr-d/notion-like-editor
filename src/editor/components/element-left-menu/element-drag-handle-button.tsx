@@ -1,8 +1,8 @@
 import { Element } from "slate"
-import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip"
 import { DragPreview, useDragNode } from "../dnd"
 import { useSlateStatic } from "slate-react"
+import { Button } from "../button"
 
 export const ElementDragHandleButton = ({
   element,
@@ -15,8 +15,8 @@ export const ElementDragHandleButton = ({
 }) => {
   const editor = useSlateStatic()
   const { isDragging, dragRef } = useDragNode(editor, {
-    id: element.id,
     type: "default",
+    item: { id: element.id },
   })
 
   return (
@@ -26,9 +26,8 @@ export const ElementDragHandleButton = ({
           <Button
             tabIndex={-1}
             aria-label="ドラッグハンドル"
-            variant="ghost"
-            size="icon"
-            className="w-[18px] h-6 rounded-sm cursor-grab"
+            size="icon-sm"
+            className="w-[18px] cursor-grab active:cursor-grabbing"
             ref={dragRef as any}
           >
             <svg

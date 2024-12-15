@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { ElementLeftMenu } from "../../element-left-menu"
 import { useRef } from "react"
 import { useMergeRefs } from "@floating-ui/react"
+import { DropArea } from "../../dnd"
 
 export const ElementBlockquote = ({
   attributes,
@@ -39,6 +40,7 @@ export const ElementBlockquote = ({
           </div>
         </div>
       </blockquote>
+      <DropArea element={element} elementRef={elementRef} direction="bottom" />
     </div>
   )
 }
